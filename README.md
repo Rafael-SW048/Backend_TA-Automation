@@ -1,6 +1,7 @@
 # Backend_TA-Automation
 
 **Status:** Work in Progress
+**Test Coverage:** 0%
 
 This project is a backend service for TA-Automation. It's built with Node.js and Express.
 
