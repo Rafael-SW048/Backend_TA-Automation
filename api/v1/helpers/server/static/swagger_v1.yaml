@@ -1,0 +1,110 @@
+---
+openapi: 3.0.0
+info:
+  swagger: '2.0'
+  version: 1.0.0
+  title: Backend API Documentation
+  description: Documentation for the backend API endpoints
+servers:
+- url: http://localhost:6969
+  description: Development server
+paths:
+  "/api/v1/terraform/vms":
+    post:
+      summary: Create a Virtual Machine
+      operationId: createVM
+      requestBody:
+        description: VM Configuration
+        required: true
+        content:
+          application/json:
+            schema: {}
+      responses:
+        '200':
+          description: VM configuration added successfully
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+    delete:
+      summary: Delete a Virtual Machine
+      operationId: deleteVM
+      parameters:
+      - in: path
+        name: vm_sid
+        description: The SID of the VM to delete
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: VM configuration deleted successfully
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+  "/api/v1/terraform/vms/check-template":
+    get:
+      summary: Check VM Templates
+      operationId: checkVMTemplate
+      responses:
+        '200':
+          description: VM templates retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+components:
+  schemas:
+    Error:
+      type: object
+      description: "An error response"
+      properties:
+        error:
+          type: object
+          required:
+            - code
+            - message
+          description: "Details about the error"
+          properties:
+            code:
+              type: integer
+              description: "The error code"
+              example: 404
+            message:
+              type: string
+              description: "A message describing the error"
+              example: "Not found. Invalid route."
+            details:
+              type: string
+              description: "Additional details about the error"
+              example: "The route you are trying to access does not exist. Please check the URL and/or the method used."

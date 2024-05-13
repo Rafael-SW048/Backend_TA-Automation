@@ -5,12 +5,12 @@ const rateLimit = require('express-rate-limit');
 const cors = require('cors');
 const fs = require('fs');
 const winston = require('winston');
-const { setupSwagger, SWAGGER_URL_V1 } = require('./swaggerSetup');
 
 // Importing routes and helpers
 const v1Route = require('./api/v1/index');
 const createResponse = require('./api/v1/helpers/createResponse');
 const findAvailablePort = require('./api/v1/helpers/server/choosePort');
+const { setupSwagger, SWAGGER_URL_V1 } = require('./api/v1/helpers/server/swaggerSetup')
 
 // Creating express app and setting up middleware
 const app = express();
@@ -80,7 +80,7 @@ app.get('/', (req, res) => {
 
 // Error handling
 app.use((req, res) => {
-  res.status(404).json(createResponse(404, 'Not found. Invalid route.', 'error', 'Please check the URL and the method used.'));
+  res.status(404).json(createResponse(404, 'Not found. Invalid route.', 'error', 'The route you are trying to access does not exist. Please check the URL and/or the method used.'));
 });
 app.use((err, req, res, next) => {
   const errorCode = err.status || 500;
